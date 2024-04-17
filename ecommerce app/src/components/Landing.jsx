@@ -40,7 +40,7 @@ const Landing = () => {
     <LandingWrapper>
       <LandingTitle>Welcome to the E-commerce App</LandingTitle>
       <LandingDescription>
-        Discover a wide range of products and start shopping now.
+        Discover a wide range of mock products and start shopping now.
       </LandingDescription>
       <LandingButton to="/home">Enter the App</LandingButton>
     </LandingWrapper>

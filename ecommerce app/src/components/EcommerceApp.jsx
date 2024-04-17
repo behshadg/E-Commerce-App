@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ProductList from '../components/ProductList';
 import Filters from '../components/Filters';
 import Cart from '../components/Cart';
@@ -11,6 +12,7 @@ const EcommerceApp = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -42,20 +44,27 @@ const EcommerceApp = () => {
   };
 
   const addToCart = (product) => {
-    setCart([...cart, product]);
+    setCart((prevCart) => [...prevCart, product]); // Use functional update to ensure correct state
   };
 
   const removeFromCart = (index) => {
-    const updatedCart = [...cart];
-    updatedCart.splice(index, 1);
-    setCart(updatedCart);
+    setCart((prevCart) => {
+      const updatedCart = [...prevCart];
+      updatedCart.splice(index, 1);
+      return updatedCart;
+    });
   };
 
   const checkout = () => {
-    // Implement checkout functionality here
     console.log('Checkout:', cart);
-    setCart([]);
-    setTotalPrice(0);
+    setCart([]); // Clear cart
+    setTotalPrice(0); // Reset total price
+    navigate('/checkout');
+  };
+
+  const handleCancel = () => {
+    console.log('Checkout canceled');
+    navigate('/'); // Navigate to the home page
   };
 
   return (
@@ -68,7 +77,12 @@ const EcommerceApp = () => {
         onRemoveFromCart={removeFromCart}
         totalPrice={totalPrice}
       />
-      <Checkout onCheckout={checkout} />
+      <Checkout
+        cart={cart}
+        totalPrice={totalPrice}
+        onCheckout={checkout}
+        onCancel={handleCancel}
+      />
     </div>
   );
 };

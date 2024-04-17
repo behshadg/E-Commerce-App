@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const HeaderWrapper = styled.header`
   background-color: #007bff;
@@ -37,12 +37,18 @@ const NavigationLink = styled(Link)`
 `;
 
 const Header = () => {
+  const location = useLocation();
+
   return (
     <HeaderWrapper>
       <HeaderContainer>
         <AppTitle>E-commerce App</AppTitle>
         <nav>
-          <NavigationLink to="/home">Enter the App</NavigationLink>
+          {location.pathname === '/home' ? (
+            <NavigationLink to="/">Back to Landing</NavigationLink>
+          ) : (
+            <NavigationLink to="/home">Enter the App</NavigationLink>
+          )}
         </nav>
       </HeaderContainer>
     </HeaderWrapper>
